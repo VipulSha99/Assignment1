@@ -26,7 +26,6 @@ function loadTableData(){
         row.appendChild(headerCell);
         
     })
-    row+="<hr />"
     for (var i = 0; i < info.length; i++) { 
         row = table.insertRow(i+1);
         var arr = [];
