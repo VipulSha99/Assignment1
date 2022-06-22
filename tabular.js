@@ -59,26 +59,20 @@ function loadTableData(){
         })
         info1.push(arr);
     }
-    // console.log(row);
-    // console.log(table);
-    // console.log(info1);
 
 }; 
 
 function selectedRowEdit(refer){
             for(var j=0;j<refer.parentNode.parentNode.cells.length-1;j++){
-                // console.log(refer.parentNode.parentNode.cells[j].childNodes[0].disabled)
                 refer.parentNode.parentNode.cells[j].childNodes[0].disabled = false
             }
-            // console.log(refer.parentNode.parentNode.cells[j].childNodes)
             refer.parentNode.parentNode.cells[j].childNodes[0].value = "Save";
             var arrChanged = [...info1[refer.parentNode.parentNode.rowIndex-1]]
-            // console.log(arrChanged);
+
             refer.parentNode.parentNode.cells[j].childNodes[0].onclick=function(){
                 for(var j=0;j<refer.parentNode.parentNode.cells.length-1;j++){
                     arrChanged[j] = refer.parentNode.parentNode.cells[j].childNodes[0].value
                     refer.parentNode.parentNode.cells[j].childNodes[0].disabled = true
-                    // console.log(arrChanged)
                     
                 }
                 info1[refer.parentNode.parentNode.rowIndex-1] = arrChanged;
@@ -91,9 +85,9 @@ function selectedRowEdit(refer){
                 refer.parentNode.parentNode.cells[j].childNodes[0].onclick = (function(){selectedRowEdit(this)})
             }
             refer.parentNode.parentNode.cells[j].childNodes[1].value = "Cancel";
+
             refer.parentNode.parentNode.cells[j].childNodes[1].onclick=function(){
                 for(var j=0;j<refer.parentNode.parentNode.cells.length-1;j++){
-                    // console.log(info1[refer.parentNode.parentNode.rowIndex-1])
                     refer.parentNode.parentNode.cells[j].childNodes[0].value = info1[refer.parentNode.parentNode.rowIndex-1][j]
                     refer.parentNode.parentNode.cells[j].childNodes[0].disabled = true
 
@@ -109,6 +103,5 @@ function selectedRowDelete(i){
             rIndex = i.parentNode.parentNode.rowIndex;
             table.deleteRow(rIndex)
             info1.splice(rIndex-1,1)
-            // console.log(info1);
 
 }
