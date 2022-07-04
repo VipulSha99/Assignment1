@@ -1,8 +1,7 @@
-var info = null;
-var info1 = [];
-let column_list = ["First Name","Middle Name","Last Name","Email","Phone Number","Role","Address","Edit"];
+let APIData = null;
+let UsersData = [];
+let column_list = [];
 const GenerateTable = async ()=>{
-    let columnCount = column_list.length;
     var response = await fetch("data.json")
     var data = await response.json();
 
@@ -12,21 +11,17 @@ const GenerateTable = async ()=>{
     }else{
         document.getElementById("load_button").innerHTML = "Refresh data";
     }
-    info = data;
+    APIData = data;
     loadTableData();
 }
 function loadTableData(){
     
     var table = document.getElementById("table_tag")
     var row = table.insertRow(0);
-    
-    column_list.forEach((column)=>{
-        var headerCell = document.createElement("th");
-        headerCell.innerHTML = column;
-        row.appendChild(headerCell);
-        
-    })
-    for (var i = 0; i < info.length; i++) { 
+    column_list = Object.keys(APIData[0]);
+    column_list.push("Edit")
+
+    for (var i = 0; i < APIData.length; i++) { 
         row = table.insertRow(i+1);
         var arr = [];
         column_list.forEach((column)=>{
@@ -51,12 +46,12 @@ function loadTableData(){
             var cell = row.insertCell(-1)
             var inputField = document.createElement('input');
             inputField.type = "text";
-            inputField.value =info[i][column]
+            inputField.value =APIData[i][column]
             inputField.disabled = true
-            arr.push(info[i][column])
+            arr.push(APIData[i][column])
             cell.appendChild(inputField);
         })
-        info1.push(arr);
+        UsersData.push(arr);
     }
 
 }; 
@@ -66,7 +61,7 @@ function selectedRowEdit(refer){
                 refer.parentNode.parentNode.cells[j].childNodes[0].disabled = false
             }
             refer.parentNode.parentNode.cells[j].childNodes[0].value = "Save";
-            var arrChanged = [...info1[refer.parentNode.parentNode.rowIndex-1]]
+            var arrChanged = [...UsersData[refer.parentNode.parentNode.rowIndex-1]]
 
             refer.parentNode.parentNode.cells[j].childNodes[0].onclick=function(){
                 for(var j=0;j<refer.parentNode.parentNode.cells.length-1;j++){
@@ -74,9 +69,9 @@ function selectedRowEdit(refer){
                     refer.parentNode.parentNode.cells[j].childNodes[0].disabled = true
                     
                 }
-                info1[refer.parentNode.parentNode.rowIndex-1] = arrChanged;
+                UsersData[refer.parentNode.parentNode.rowIndex-1] = arrChanged;
                 for(var j=0;j<refer.parentNode.parentNode.cells.length-1;j++){
-                    refer.parentNode.parentNode.cells[j].childNodes[0].value = info1[refer.parentNode.parentNode.rowIndex-1][j]                   
+                    refer.parentNode.parentNode.cells[j].childNodes[0].value = UsersData[refer.parentNode.parentNode.rowIndex-1][j]                   
                 }
                 refer.parentNode.parentNode.cells[j].childNodes[1].value = "Delete";
                 refer.parentNode.parentNode.cells[j].childNodes[1].onclick = (function(){selectedRowDelete(this)})
@@ -87,7 +82,7 @@ function selectedRowEdit(refer){
 
             refer.parentNode.parentNode.cells[j].childNodes[1].onclick=function(){
                 for(var j=0;j<refer.parentNode.parentNode.cells.length-1;j++){
-                    refer.parentNode.parentNode.cells[j].childNodes[0].value = info1[refer.parentNode.parentNode.rowIndex-1][j]
+                    refer.parentNode.parentNode.cells[j].childNodes[0].value = UsersData[refer.parentNode.parentNode.rowIndex-1][j]
                     refer.parentNode.parentNode.cells[j].childNodes[0].disabled = true
 
                 }
@@ -101,6 +96,6 @@ function selectedRowDelete(i){
     var rIndex,table = document.getElementById("table_tag");
             rIndex = i.parentNode.parentNode.rowIndex;
             table.deleteRow(rIndex)
-            info1.splice(rIndex-1,1)
+            UsersData.splice(rIndex-1,1)
 
 }
