@@ -21,6 +21,13 @@ function loadTableData(){
     column_list = Object.keys(APIData[0]);
     column_list.push("Edit")
 
+    column_list.forEach((column)=>{
+        let headerCell = document.createElement("th");
+        headerCell.innerHTML = column;
+        row.appendChild(headerCell);
+        
+    })
+
     for (var i = 0; i < APIData.length; i++) { 
         row = table.insertRow(i+1);
         var arr = [];
